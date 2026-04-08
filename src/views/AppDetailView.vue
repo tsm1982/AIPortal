@@ -5,9 +5,18 @@ import { useRoute, RouterLink } from "vue-router";
 const route = useRoute();
 const appId = computed(() => route.params.id as string);
 
-const appData = ref<any>(null);
+interface Application {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  icon: string;
+  tags: string[];
+  features: string[];
+  url?: string;
+}
 
-const applications = [
+const applications: Application[] = [
   {
     id: "1",
     name: "政务一网通办",
@@ -37,6 +46,7 @@ const applications = [
       "可视化展示：丰富的图表展示方式",
       "实时更新：数据实时同步更新",
     ],
+    url: "http://10.19.197.140/#/login",
   },
   {
     id: "3",
@@ -143,6 +153,7 @@ const applications = [
       "知识库：内置企业知识库",
       "全天候服务：7x24小时在线服务",
     ],
+    url: "https://wxai.etransfar.com:9008/xqy?userId=028682",
   },
   {
     id: "10",
@@ -159,6 +170,7 @@ const applications = [
       "实时分析：实时数据分析",
       "多数据源：支持多种数据源",
     ],
+    url: "http://10.19.197.140/#/login",
   },
   {
     id: "11",
@@ -175,6 +187,7 @@ const applications = [
       "修订建议：提供智能修订建议",
       "法律库：内置法律规则库",
     ],
+    url: "http://106.14.199.195:8079/",
   },
   {
     id: "12",
@@ -267,7 +280,11 @@ const handleStart = () => {
   isLoading.value = true;
   setTimeout(() => {
     isLoading.value = false;
-    alert(`正在启动 ${currentApp.value?.name}...`);
+    if (currentApp.value?.url) {
+      window.open(currentApp.value.url, "_blank");
+    } else {
+      alert(`正在启动 ${currentApp.value?.name}...`);
+    }
   }, 1000);
 };
 </script>

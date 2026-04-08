@@ -6,18 +6,39 @@ const isSidebarVisible = ref(true);
 
 const aiApps = [
   {
-    id: "smart-customer-service",
-    name: "智能客服",
+    id: "smart-customer-service-ch",
+    name: "智能客服-CH",
     description: "基于大语言模型的智能客服系统，提供7x24小时在线服务",
     icon: "customer-service",
     url: "https://wxai.etransfar.com:9008/xqy?userId=028682",
   },
   {
+    id: "operation-management-ch",
+    name: "运营管理平台-CH",
+    description: "知识库管理、问答统计分析等",
+    icon: "customer-service",
+    url: "https://aizs.etransfar.com/docsManagement?userId=028682",
+  },
+  {
+    id: "smart-customer-service-snd",
+    name: "智能客服-SND",
+    description: "基于大语言模型的智能客服系统，提供7x24小时在线服务",
+    icon: "customer-service",
+    url: "http://119.45.174.249/",
+  },
+  {
+    id: "operation-management-snd",
+    name: "运营管理平台-SND",
+    description: "知识库管理、问答统计分析等",
+    icon: "customer-service",
+    url: "http://ops-platform-pc-daily.default-4.ingress.dxsp.tech/ops/tagManagement?userId=1",
+  },
+  {
     id: "smart-data-query",
     name: "智能问数",
-    description: "自然语言查询商业数据，快速获取分析结果",
+    description: "内网访问，自然语言查询商业数据，快速获取分析结果",
     icon: "data-query",
-    url: "http://43.199.253.73/#/login",
+    url: "http://10.19.197.140/#/login",
   },
   {
     id: "ai-contract-review",
