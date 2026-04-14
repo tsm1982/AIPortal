@@ -23,7 +23,7 @@ async function handleLogin() {
 
   if (success) {
     const redirect = route.query.redirect as string;
-    router.push(redirect || "/");
+    router.push(redirect || "/ai-tools");
   }
 }
 

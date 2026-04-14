@@ -1,12 +1,13 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import { validateUser, type Role } from "@/data/roles";
 
 /**
  * 用户认证状态管理 Store
  * 管理用户登录状态、用户信息和认证相关操作
  */
 export const useAuthStore = defineStore("auth", () => {
-  const user = ref<{ username: string; role: string } | null>(null);
+  const user = ref<{ username: string; role: Role } | null>(null);
   const token = ref<string | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
@@ -25,10 +26,11 @@ export const useAuthStore = defineStore("auth", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    if (username === "admin" && password === "admin123!@#") {
+    const validatedUser = validateUser(username, password);
+    if (validatedUser) {
       user.value = {
-        username: "admin",
-        role: "administrator",
+        username: username,
+        role: validatedUser.role,
       };
       token.value = "mock-token-" + Date.now();
       localStorage.setItem("auth_token", token.value);

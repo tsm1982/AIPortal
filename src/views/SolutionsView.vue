@@ -1,39 +1,129 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { applications, type Application } from "@/data/applications";
 
 const router = useRouter();
 
 const searchQuery = ref("");
 const selectedCategory = ref("all");
 
-const categories = [
-  { id: "all", name: "全部应用", icon: "📱" },
-  { id: "零售场景", name: "零售场景", icon: "🛍️" },
-  { id: "办公场景", name: "办公场景", icon: "💼" },
-  { id: "运营管理", name: "运营管理", icon: "📈" },
-  { id: "汽车场景", name: "汽车场景", icon: "🚗" },
-  { id: "数据分析", name: "数据分析", icon: "📊" },
-  { id: "旅游场景", name: "旅游场景", icon: "✈️" },
-  { id: "营销场景", name: "营销场景", icon: "📊" },
-  { id: "智能服务", name: "智能服务", icon: "🎧" },
-  { id: "法律合规", name: "法律合规", icon: "📑" },
-  { id: "采购管理", name: "采购管理", icon: "⚖️" },
-  { id: "平台集成", name: "平台集成", icon: "🔧" },
+interface Solution {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  icon: string;
+  tags: string[];
+  features: string[];
+  url?: string;
+}
+
+const solutions: Solution[] = [
+  {
+    id: "s1",
+    name: "智慧城市解决方案",
+    description: "基于AI和大数据技术的智慧城市建设方案，涵盖城市管理、民生服务、产业发展等领域",
+    category: "智慧城市",
+    icon: "🌆",
+    tags: ["城市管理", "民生服务", "产业发展", "数据融合"],
+    features: [
+      "城市管理：智能化城市运营中心",
+      "民生服务：一站式便民服务平台",
+      "产业发展：产业经济分析系统",
+      "数据融合：跨部门数据共享交换",
+    ],
+  },
+  {
+    id: "s2",
+    name: "智慧金融解决方案",
+    description: "面向金融行业的数字化转型方案，提供智能风控、精准营销、客户服务等能力",
+    category: "智慧金融",
+    icon: "🏦",
+    tags: ["智能风控", "精准营销", "客户服务", "监管合规"],
+    features: [
+      "智能风控：实时风险识别与预警",
+      "精准营销：客户画像与智能推荐",
+      "客户服务：智能客服与远程服务",
+      "监管合规：合规性自动化检查",
+    ],
+  },
+  {
+    id: "s3",
+    name: "智慧政务解决方案",
+    description: "助力政府数字化转型的综合方案，实现政务服务智能化、协同化和便捷化",
+    category: "智慧政务",
+    icon: "🏛️",
+    tags: ["政务服务", "协同办公", "智慧监管", "决策支持"],
+    features: [
+      "政务服务：一体化在线办事平台",
+      "协同办公：跨部门协同工作系统",
+      "智慧监管：智能化监管预警",
+      "决策支持：数据驱动的决策分析",
+    ],
+  },
+  {
+    id: "s4",
+    name: "智慧医疗解决方案",
+    description: "覆盖医疗全流程的智能化方案，提升医疗服务质量效率和健康管理水平",
+    category: "智慧医疗",
+    icon: "🏥",
+    tags: ["智慧诊疗", "健康管理", "医院管理", "医疗协同"],
+    features: [
+      "智慧诊疗：辅助诊断与治疗推荐",
+      "健康管理：全生命周期健康档案",
+      "医院管理：智慧医院运营系统",
+      "医疗协同：医联体协同服务平台",
+    ],
+  },
+  {
+    id: "s5",
+    name: "智慧教育解决方案",
+    description: "教育信息化2.0时代的创新方案，促进教育公平与质量提升",
+    category: "智慧教育",
+    icon: "🎓",
+    tags: ["智慧教学", "智慧学习", "智慧管理", "智慧评价"],
+    features: [
+      "智慧教学：智能化教学辅助工具",
+      "智慧学习：个性化学习推荐系统",
+      "智慧管理：教育大数据分析平台",
+      "智慧评价：多维度教学质量评估",
+    ],
+  },
+  {
+    id: "s6",
+    name: "智慧能源解决方案",
+    description: "能源行业数字化转型方案，助力企业实现智能化生产和绿色低碳发展",
+    category: "智慧能源",
+    icon: "⚡",
+    tags: ["智能生产", "能耗管理", "设备运维", "碳排放管理"],
+    features: [
+      "智能生产：智能化生产调度系统",
+      "能耗管理：能耗监测与优化控制",
+      "设备运维：预测性设备维护",
+      "碳排放管理：碳足迹追踪与核算",
+    ],
+  },
 ];
 
-const applicationsList = ref<Application[]>(applications);
+const categories = [
+  { id: "all", name: "全部方案", icon: "💡" },
+  { id: "智慧城市", name: "智慧城市", icon: "🌆" },
+  { id: "智慧金融", name: "智慧金融", icon: "🏦" },
+  { id: "智慧政务", name: "智慧政务", icon: "🏛️" },
+  { id: "智慧医疗", name: "智慧医疗", icon: "🏥" },
+  { id: "智慧教育", name: "智慧教育", icon: "🎓" },
+  { id: "智慧能源", name: "智慧能源", icon: "⚡" },
+];
 
-const filteredApplications = computed(() => {
-  return applicationsList.value.filter((app) => {
+const filteredSolutions = computed(() => {
+  return solutions.filter((solution) => {
     const matchesSearch =
       !searchQuery.value ||
-      app.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      app.description.toLowerCase().includes(searchQuery.value.toLowerCase());
+      solution.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      solution.description.toLowerCase().includes(searchQuery.value.toLowerCase());
 
     const matchesCategory =
-      selectedCategory.value === "all" || app.category === selectedCategory.value;
+      selectedCategory.value === "all" || solution.category === selectedCategory.value;
 
     return matchesSearch && matchesCategory;
   });
@@ -43,23 +133,20 @@ const selectCategory = (categoryId: string) => {
   selectedCategory.value = categoryId;
 };
 
-const handleStartApp = (appId: string) => {
-  router.push(`/ai-tools/${appId}`);
+const handleViewDetail = (solutionId: string) => {
+  router.push(`/solutions/${solutionId}`);
 };
 </script>
 
 <template>
-  <div class="ai-tools-view">
+  <div class="solutions-view">
     <div class="content-layout">
-      <!-- 左侧边栏 -->
       <aside class="sidebar">
-        <!-- 搜索框 -->
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input v-model="searchQuery" type="text" placeholder="搜索应用" class="search-input" />
+          <input v-model="searchQuery" type="text" placeholder="搜索方案" class="search-input" />
         </div>
 
-        <!-- 分类导航 -->
         <nav class="category-nav">
           <div
             v-for="category in categories"
@@ -73,35 +160,36 @@ const handleStartApp = (appId: string) => {
         </nav>
       </aside>
 
-      <!-- 右侧应用列表 -->
       <main class="main-content">
-        <div class="apps-grid">
-          <div v-for="app in filteredApplications" :key="app.id" class="app-card">
-            <div class="app-header">
-              <div class="app-icon">{{ app.icon }}</div>
-              <div class="app-info">
-                <h3 class="app-name">{{ app.name }}</h3>
+        <div class="solutions-grid">
+          <div v-for="solution in filteredSolutions" :key="solution.id" class="solution-card">
+            <div class="solution-header">
+              <div class="solution-icon">{{ solution.icon }}</div>
+              <div class="solution-info">
+                <h3 class="solution-name">{{ solution.name }}</h3>
+                <span class="solution-category">{{ solution.category }}</span>
               </div>
             </div>
 
-            <p class="app-description">{{ app.description }}</p>
+            <p class="solution-description">{{ solution.description }}</p>
 
-            <div class="app-tags">
-              <span v-for="tag in app.tags" :key="tag" class="app-tag">
+            <div class="solution-tags">
+              <span v-for="tag in solution.tags" :key="tag" class="solution-tag">
                 {{ tag }}
               </span>
             </div>
 
-            <div class="app-actions">
-              <button class="btn btn-primary" @click="handleStartApp(app.id)">查看详情</button>
+            <div class="solution-actions">
+              <button class="btn btn-primary" @click="handleViewDetail(solution.id)">
+                查看详情
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- 空状态 -->
-        <div v-if="filteredApplications.length === 0" class="empty-state">
+        <div v-if="filteredSolutions.length === 0" class="empty-state">
           <div class="empty-icon">🔍</div>
-          <p class="empty-text">没有找到相关应用</p>
+          <p class="empty-text">没有找到相关方案</p>
         </div>
       </main>
     </div>
@@ -109,27 +197,9 @@ const handleStartApp = (appId: string) => {
 </template>
 
 <style scoped>
-.ai-tools-view {
+.solutions-view {
   padding: 32px 0;
   min-height: calc(100vh - var(--header-height) - 200px);
-}
-
-.page-header {
-  margin-bottom: 32px;
-  text-align: center;
-}
-
-.page-title {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 8px;
-}
-
-.page-subtitle {
-  font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
-  margin: 0;
 }
 
 .content-layout {
@@ -227,13 +297,30 @@ const handleStartApp = (appId: string) => {
   min-height: 400px;
 }
 
-.apps-grid {
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.solutions-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
-.app-card {
+.solution-card {
   background: var(--color-bg-base);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-lg);
@@ -243,20 +330,20 @@ const handleStartApp = (appId: string) => {
   flex-direction: column;
 }
 
-.app-card:hover {
+.solution-card:hover {
   box-shadow: var(--shadow-2);
   border-color: var(--color-primary-bg-hover);
   transform: translateY(-2px);
 }
 
-.app-header {
+.solution-header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.app-icon {
+.solution-icon {
   width: 40px;
   height: 40px;
   background: var(--color-bg-layout);
@@ -268,22 +355,30 @@ const handleStartApp = (appId: string) => {
   flex-shrink: 0;
 }
 
-.app-info {
+.solution-info {
   flex: 1;
   min-width: 0;
 }
 
-.app-name {
+.solution-name {
   font-size: var(--font-size-base);
   font-weight: 600;
   color: var(--color-text-primary);
-  margin: 0;
+  margin: 0 0 4px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.app-description {
+.solution-category {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  padding: 2px 8px;
+  border-radius: var(--border-radius-xs);
+}
+
+.solution-description {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: 1.6;
@@ -294,14 +389,14 @@ const handleStartApp = (appId: string) => {
   overflow: hidden;
 }
 
-.app-tags {
+.solution-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 16px;
 }
 
-.app-tag {
+.solution-tag {
   font-size: var(--font-size-xs);
   color: var(--color-primary);
   background: var(--color-primary-bg);
@@ -309,7 +404,7 @@ const handleStartApp = (appId: string) => {
   border-radius: var(--border-radius-xs);
 }
 
-.app-actions {
+.solution-actions {
   display: flex;
   gap: 8px;
 }
@@ -385,13 +480,13 @@ const handleStartApp = (appId: string) => {
     border-color: var(--color-primary);
   }
 
-  .apps-grid {
+  .solutions-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .ai-tools-view {
+  .solutions-view {
     padding: 20px 0;
   }
 

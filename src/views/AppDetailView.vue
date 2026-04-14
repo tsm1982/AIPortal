@@ -21,7 +21,7 @@ const handleStart = () => {
     } else {
       alert(`正在启动 ${currentApp.value?.name}...`);
     }
-  }, 1000);
+  }, 0);
 };
 </script>
 

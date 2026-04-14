@@ -2,6 +2,7 @@
 import { RouterLink, RouterView, useRouter, useRoute } from "vue-router";
 import { ref, computed } from "vue";
 import { useAuthStore } from "@/stores/auth";
+import { getMenuByRole } from "@/data/roles";
 
 const router = useRouter();
 const route = useRoute();
@@ -26,7 +27,7 @@ const handleLogout = () => {
 
 const companyInfo = {
   name: "亚信科技",
-  logo: "favicon.ico",
+  logo: "/favicon.ico",
   subtitle: "AI应用门户",
 };
 
@@ -37,6 +38,33 @@ const userDisplayName = computed(() => {
 const isLoginPage = computed(() => {
   return route.name === "login";
 });
+
+const userMenus = computed(() => {
+  const role = authStore.user?.role;
+  if (!role) return [];
+  return getMenuByRole(role);
+});
+
+const getMenuIcon = (iconName: string) => {
+  const icons: Record<string, string> = {
+    grid: `<rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>`,
+    folder: `<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    tool: `<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    solution: `<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  };
+  return icons[iconName] || icons.grid;
+};
+
+const getRoleDisplayName = (role: string) => {
+  switch (role) {
+    case "admin":
+      return "管理员";
+    case "projectadmin":
+      return "项目管理员";
+    default:
+      return "用户";
+  }
+};
 </script>
 
 <template>
@@ -56,112 +84,23 @@ const isLoginPage = computed(() => {
         </div>
 
         <nav class="nav" :class="{ 'is-open': isMenuOpen }">
-          <RouterLink to="/" class="nav-item" @click="toggleMenu">
+          <RouterLink
+            v-for="menu in userMenus"
+            :key="menu.id"
+            :to="menu.path || '/'"
+            class="nav-item"
+            @click="toggleMenu"
+          >
             <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M9 22V12H15V22"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                v-html="getMenuIcon(menu.icon)"
+              ></svg>
             </span>
-            <span>首页</span>
+            <span>{{ menu.name }}</span>
           </RouterLink>
-          <RouterLink to="/ai-tools" class="nav-item" @click="toggleMenu">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect
-                  x="3"
-                  y="3"
-                  width="7"
-                  height="7"
-                  rx="1"
-                  stroke="currentColor"
-                  stroke-width="2"
-                />
-                <rect
-                  x="14"
-                  y="3"
-                  width="7"
-                  height="7"
-                  rx="1"
-                  stroke="currentColor"
-                  stroke-width="2"
-                />
-                <rect
-                  x="3"
-                  y="14"
-                  width="7"
-                  height="7"
-                  rx="1"
-                  stroke="currentColor"
-                  stroke-width="2"
-                />
-                <rect
-                  x="14"
-                  y="14"
-                  width="7"
-                  height="7"
-                  rx="1"
-                  stroke="currentColor"
-                  stroke-width="2"
-                />
-              </svg>
-            </span>
-            <span>应用市场</span>
-          </RouterLink>
-          <RouterLink to="/experience-center" class="nav-item" @click="toggleMenu">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-            <span>体验中心</span>
-          </RouterLink>
-          <a href="http://124.221.144.17:1188" class="nav-item" target="_blank">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M15 3H21V9"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M10 14L21 3"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-            <span>AI运营平台</span>
-          </a>
         </nav>
 
         <div class="header-actions">
@@ -214,7 +153,7 @@ const isLoginPage = computed(() => {
                   <div class="dropdown-user-info">
                     <span class="dropdown-username">{{ userDisplayName }}</span>
                     <span class="dropdown-role">{{
-                      authStore.user?.role === "administrator" ? "管理员" : "用户"
+                      getRoleDisplayName(authStore.user?.role || "")
                     }}</span>
                   </div>
                 </div>

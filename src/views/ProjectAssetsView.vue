@@ -1,39 +1,129 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { applications, type Application } from "@/data/applications";
 
 const router = useRouter();
 
 const searchQuery = ref("");
 const selectedCategory = ref("all");
 
-const categories = [
-  { id: "all", name: "全部应用", icon: "📱" },
-  { id: "零售场景", name: "零售场景", icon: "🛍️" },
-  { id: "办公场景", name: "办公场景", icon: "💼" },
-  { id: "运营管理", name: "运营管理", icon: "📈" },
-  { id: "汽车场景", name: "汽车场景", icon: "🚗" },
-  { id: "数据分析", name: "数据分析", icon: "📊" },
-  { id: "旅游场景", name: "旅游场景", icon: "✈️" },
-  { id: "营销场景", name: "营销场景", icon: "📊" },
-  { id: "智能服务", name: "智能服务", icon: "🎧" },
-  { id: "法律合规", name: "法律合规", icon: "📑" },
-  { id: "采购管理", name: "采购管理", icon: "⚖️" },
-  { id: "平台集成", name: "平台集成", icon: "🔧" },
+interface Asset {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  icon: string;
+  tags: string[];
+  features: string[];
+  url?: string;
+}
+
+const assets: Asset[] = [
+  {
+    id: "p1",
+    name: "智慧社区项目",
+    description: "基于AI技术打造的智慧社区管理平台，整合物业管理、安防监控、便民服务等功能",
+    category: "智慧社区",
+    icon: "🏘️",
+    tags: ["智慧社区", "物业管理", "安防监控", "便民服务"],
+    features: [
+      "智能门禁：人脸识别与二维码扫描",
+      "安防监控：24小时实时监控与异常报警",
+      "报修管理：在线报修与进度跟踪",
+      "便民服务：快递代收、洗衣预约等",
+    ],
+  },
+  {
+    id: "p2",
+    name: "智慧园区项目",
+    description: "面向产业园区的数字化管理解决方案，提供招商、运营、能源等多维度管理能力",
+    category: "智慧园区",
+    icon: "🏢",
+    tags: ["智慧园区", "招商管理", "能源管理", "数字化运营"],
+    features: [
+      "招商管理：全流程数字化招商",
+      "能源管理：智能节能与成本控制",
+      "设施管理：设备监控与维护提醒",
+      "数据分析：园区运营数据洞察",
+    ],
+  },
+  {
+    id: "p3",
+    name: "智慧水务项目",
+    description: "水务行业智能化管理平台，实现水质监测、管网管理、客户服务一体化",
+    category: "智慧水务",
+    icon: "💧",
+    tags: ["智慧水务", "水质监测", "管网管理", "客户服务"],
+    features: [
+      "水质监测：实时水质数据采集与分析",
+      "管网管理：GIS地图与管网维护",
+      "客户服务：在线缴费与业务办理",
+      "数据分析：用水趋势与预测",
+    ],
+  },
+  {
+    id: "p4",
+    name: "智慧交通项目",
+    description: "城市交通智能化解决方案，包含信号控制、路况监测、公交调度等功能",
+    category: "智慧交通",
+    icon: "🚦",
+    tags: ["智慧交通", "信号控制", "路况监测", "公交调度"],
+    features: [
+      "信号控制：自适应交通信号调节",
+      "路况监测：实时路况信息发布",
+      "公交调度：智能公交运营管理",
+      "数据分析：交通流量分析与预测",
+    ],
+  },
+  {
+    id: "p5",
+    name: "智慧教育项目",
+    description: "教育行业数字化转型平台，涵盖教学管理、在线学习、教育评价等功能",
+    category: "智慧教育",
+    icon: "🎓",
+    tags: ["智慧教育", "教学管理", "在线学习", "教育评价"],
+    features: [
+      "教学管理：课程安排与学籍管理",
+      "在线学习：网络教学与资源共享",
+      "教育评价：多维度教学质量评估",
+      "数据分析：学习效果跟踪分析",
+    ],
+  },
+  {
+    id: "p6",
+    name: "智慧医疗项目",
+    description: "医疗健康智能化平台，提供预约挂号、远程诊疗、健康管理等服务",
+    category: "智慧医疗",
+    icon: "🏥",
+    tags: ["智慧医疗", "预约挂号", "远程诊疗", "健康管理"],
+    features: [
+      "预约挂号：在线预约与排队管理",
+      "远程诊疗：视频问诊与处方开具",
+      "健康管理：健康档案与随访提醒",
+      "数据分析：疾病预测与防控",
+    ],
+  },
 ];
 
-const applicationsList = ref<Application[]>(applications);
+const categories = [
+  { id: "all", name: "全部项目", icon: "📁" },
+  { id: "智慧社区", name: "智慧社区", icon: "🏘️" },
+  { id: "智慧园区", name: "智慧园区", icon: "🏢" },
+  { id: "智慧水务", name: "智慧水务", icon: "💧" },
+  { id: "智慧交通", name: "智慧交通", icon: "🚦" },
+  { id: "智慧教育", name: "智慧教育", icon: "🎓" },
+  { id: "智慧医疗", name: "智慧医疗", icon: "🏥" },
+];
 
-const filteredApplications = computed(() => {
-  return applicationsList.value.filter((app) => {
+const filteredAssets = computed(() => {
+  return assets.filter((asset) => {
     const matchesSearch =
       !searchQuery.value ||
-      app.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      app.description.toLowerCase().includes(searchQuery.value.toLowerCase());
+      asset.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      asset.description.toLowerCase().includes(searchQuery.value.toLowerCase());
 
     const matchesCategory =
-      selectedCategory.value === "all" || app.category === selectedCategory.value;
+      selectedCategory.value === "all" || asset.category === selectedCategory.value;
 
     return matchesSearch && matchesCategory;
   });
@@ -43,23 +133,20 @@ const selectCategory = (categoryId: string) => {
   selectedCategory.value = categoryId;
 };
 
-const handleStartApp = (appId: string) => {
-  router.push(`/ai-tools/${appId}`);
+const handleViewDetail = (assetId: string) => {
+  router.push(`/project-assets/${assetId}`);
 };
 </script>
 
 <template>
-  <div class="ai-tools-view">
+  <div class="assets-view">
     <div class="content-layout">
-      <!-- 左侧边栏 -->
       <aside class="sidebar">
-        <!-- 搜索框 -->
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input v-model="searchQuery" type="text" placeholder="搜索应用" class="search-input" />
+          <input v-model="searchQuery" type="text" placeholder="搜索项目" class="search-input" />
         </div>
 
-        <!-- 分类导航 -->
         <nav class="category-nav">
           <div
             v-for="category in categories"
@@ -73,35 +160,34 @@ const handleStartApp = (appId: string) => {
         </nav>
       </aside>
 
-      <!-- 右侧应用列表 -->
       <main class="main-content">
-        <div class="apps-grid">
-          <div v-for="app in filteredApplications" :key="app.id" class="app-card">
-            <div class="app-header">
-              <div class="app-icon">{{ app.icon }}</div>
-              <div class="app-info">
-                <h3 class="app-name">{{ app.name }}</h3>
+        <div class="assets-grid">
+          <div v-for="asset in filteredAssets" :key="asset.id" class="asset-card">
+            <div class="asset-header">
+              <div class="asset-icon">{{ asset.icon }}</div>
+              <div class="asset-info">
+                <h3 class="asset-name">{{ asset.name }}</h3>
+                <span class="asset-category">{{ asset.category }}</span>
               </div>
             </div>
 
-            <p class="app-description">{{ app.description }}</p>
+            <p class="asset-description">{{ asset.description }}</p>
 
-            <div class="app-tags">
-              <span v-for="tag in app.tags" :key="tag" class="app-tag">
+            <div class="asset-tags">
+              <span v-for="tag in asset.tags" :key="tag" class="asset-tag">
                 {{ tag }}
               </span>
             </div>
 
-            <div class="app-actions">
-              <button class="btn btn-primary" @click="handleStartApp(app.id)">查看详情</button>
+            <div class="asset-actions">
+              <button class="btn btn-primary" @click="handleViewDetail(asset.id)">查看详情</button>
             </div>
           </div>
         </div>
 
-        <!-- 空状态 -->
-        <div v-if="filteredApplications.length === 0" class="empty-state">
+        <div v-if="filteredAssets.length === 0" class="empty-state">
           <div class="empty-icon">🔍</div>
-          <p class="empty-text">没有找到相关应用</p>
+          <p class="empty-text">没有找到相关项目</p>
         </div>
       </main>
     </div>
@@ -109,27 +195,9 @@ const handleStartApp = (appId: string) => {
 </template>
 
 <style scoped>
-.ai-tools-view {
+.assets-view {
   padding: 32px 0;
   min-height: calc(100vh - var(--header-height) - 200px);
-}
-
-.page-header {
-  margin-bottom: 32px;
-  text-align: center;
-}
-
-.page-title {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 8px;
-}
-
-.page-subtitle {
-  font-size: var(--font-size-base);
-  color: var(--color-text-secondary);
-  margin: 0;
 }
 
 .content-layout {
@@ -227,13 +295,30 @@ const handleStartApp = (appId: string) => {
   min-height: 400px;
 }
 
-.apps-grid {
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.assets-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
-.app-card {
+.asset-card {
   background: var(--color-bg-base);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-lg);
@@ -243,20 +328,20 @@ const handleStartApp = (appId: string) => {
   flex-direction: column;
 }
 
-.app-card:hover {
+.asset-card:hover {
   box-shadow: var(--shadow-2);
   border-color: var(--color-primary-bg-hover);
   transform: translateY(-2px);
 }
 
-.app-header {
+.asset-header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.app-icon {
+.asset-icon {
   width: 40px;
   height: 40px;
   background: var(--color-bg-layout);
@@ -268,22 +353,30 @@ const handleStartApp = (appId: string) => {
   flex-shrink: 0;
 }
 
-.app-info {
+.asset-info {
   flex: 1;
   min-width: 0;
 }
 
-.app-name {
+.asset-name {
   font-size: var(--font-size-base);
   font-weight: 600;
   color: var(--color-text-primary);
-  margin: 0;
+  margin: 0 0 4px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.app-description {
+.asset-category {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  padding: 2px 8px;
+  border-radius: var(--border-radius-xs);
+}
+
+.asset-description {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: 1.6;
@@ -294,14 +387,14 @@ const handleStartApp = (appId: string) => {
   overflow: hidden;
 }
 
-.app-tags {
+.asset-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 16px;
 }
 
-.app-tag {
+.asset-tag {
   font-size: var(--font-size-xs);
   color: var(--color-primary);
   background: var(--color-primary-bg);
@@ -309,7 +402,7 @@ const handleStartApp = (appId: string) => {
   border-radius: var(--border-radius-xs);
 }
 
-.app-actions {
+.asset-actions {
   display: flex;
   gap: 8px;
 }
@@ -385,13 +478,13 @@ const handleStartApp = (appId: string) => {
     border-color: var(--color-primary);
   }
 
-  .apps-grid {
+  .assets-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .ai-tools-view {
+  .assets-view {
     padding: 20px 0;
   }
 
