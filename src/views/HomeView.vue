@@ -1,59 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { applications } from "@/data/applications";
 
 const router = useRouter();
 
-const featuredApps = ref([
-  {
-    id: 1,
-    name: "智能客服",
-    description: "7x24h自动闭环服务，支持多轮对话、情绪识别和人工接管",
-    icon: "🎧",
-    category: "智能服务",
-    tags: ["多轮对话", "情绪识别", "人工接管"],
-  },
-  {
-    id: 2,
-    name: "合同审核",
-    description: "智能合同审查系统，自动检测风险、合规校验，降低法律风险",
-    icon: "📑",
-    category: "法律合规",
-    tags: ["风险检测", "合规校验", "智能审查"],
-  },
-  {
-    id: 3,
-    name: "智能问数",
-    description: "自然语言转SQL，自动生成可视化报表和经营分析",
-    icon: "📊",
-    category: "数据分析",
-    tags: ["自然语言", "SQL生成", "可视化报表"],
-  },
-  {
-    id: 4,
-    name: "Dify平台集成",
-    description: "低代码AI应用构建平台，快速构建企业级AI应用",
-    icon: "🔧",
-    category: "平台集成",
-    tags: ["低代码", "工作流编排", "模型集成"],
-  },
-  {
-    id: 5,
-    name: "AI运营平台",
-    description: "AIGC内容生成、用户行为预测及活动自动化流转",
-    icon: "📈",
-    category: "运营管理",
-    tags: ["AIGC", "文案策划", "活动自动化"],
-  },
-  {
-    id: 6,
-    name: "招标助手",
-    description: "智能标书生成、控标点抽取、方案比对及自动编写",
-    icon: "⚖️",
-    category: "采购管理",
-    tags: ["标书生成", "方案比对", "自动编写"],
-  },
-]);
+const featuredApps = computed(() => applications.filter((app) => app.featured).slice(0, 6));
 
 const features = ref([
   {
@@ -88,7 +40,7 @@ const features = ref([
   },
 ]);
 
-const handleStartApp = (appId: number) => {
+const handleStartApp = (appId: string) => {
   router.push(`/ai-tools/${appId}`);
 };
 </script>
