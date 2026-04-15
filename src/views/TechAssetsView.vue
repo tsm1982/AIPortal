@@ -1,122 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { techAssets, techCategories } from "@/data/techAssets";
 
 const router = useRouter();
 
 const searchQuery = ref("");
 const selectedCategory = ref("all");
 
-interface Asset {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  icon: string;
-  tags: string[];
-  features: string[];
-  url?: string;
-}
-
-const assets: Asset[] = [
-  {
-    id: "t1",
-    name: "AI模型服务平台",
-    description: "基于云原生的AI模型服务平台，提供模型训练、部署、推理等全生命周期管理",
-    category: "AI平台",
-    icon: "🤖",
-    tags: ["模型训练", "模型部署", "在线推理", "AutoML"],
-    features: [
-      "模型训练：分布式训练与超参调优",
-      "模型部署：一键部署与版本管理",
-      "在线推理：高并发推理服务",
-      "AutoML：自动化模型搜索",
-    ],
-  },
-  {
-    id: "t2",
-    name: "数据中台",
-    description: "企业级数据集成与管理平台，支持多源异构数据的采集、治理与服务化",
-    category: "数据平台",
-    icon: "🗄️",
-    tags: ["数据集成", "数据治理", "数据服务", "数据血缘"],
-    features: [
-      "数据集成：多源异构数据快速接入",
-      "数据治理：数据质量与标准化管理",
-      "数据服务：API化数据输出",
-      "数据血缘：全链路数据追溯",
-    ],
-  },
-  {
-    id: "t3",
-    name: "区块链服务平台",
-    description: "企业级区块链技术平台，支持联盟链部署、智能合约开发与运维监控",
-    category: "区块链",
-    icon: "⛓️",
-    tags: ["联盟链", "智能合约", "运维监控", "跨链互通"],
-    features: [
-      "联盟链：快速部署与节点管理",
-      "智能合约：可视化开发与安全审计",
-      "运维监控：链上交易实时监控",
-      "跨链互通：多链跨链解决方案",
-    ],
-  },
-  {
-    id: "t4",
-    name: "物联网平台",
-    description: "海量物联网设备连接与管理平台，支持设备接入、数据采集与远程控制",
-    category: "IoT平台",
-    icon: "📡",
-    tags: ["设备接入", "数据采集", "边缘计算", "规则引擎"],
-    features: [
-      "设备接入：多协议设备快速接入",
-      "数据采集：实时数据采集与存储",
-      "边缘计算：云边协同计算",
-      "规则引擎：灵活的业务规则配置",
-    ],
-  },
-  {
-    id: "t5",
-    name: "低代码开发平台",
-    description: "可视化低代码开发平台，支持表单、流程、页面等快速构建",
-    category: "开发工具",
-    icon: "🧩",
-    tags: ["可视化开发", "表单构建", "流程编排", "组件市场"],
-    features: [
-      "可视化开发：拖拽式页面构建",
-      "表单构建：灵活的数据表单设计",
-      "流程编排：业务流程可视化编排",
-      "组件市场：丰富的组件生态",
-    ],
-  },
-  {
-    id: "t6",
-    name: "安全合规平台",
-    description: "全方位安全合规管理平台，提供身份认证、权限管理与安全审计",
-    category: "安全平台",
-    icon: "🔒",
-    tags: ["身份认证", "权限管理", "安全审计", "数据加密"],
-    features: [
-      "身份认证：多因素认证与单点登录",
-      "权限管理：细粒度权限控制",
-      "安全审计：全方位操作审计",
-      "数据加密：敏感数据加密保护",
-    ],
-  },
-];
-
-const categories = [
-  { id: "all", name: "全部技术", icon: "⚙️" },
-  { id: "AI平台", name: "AI平台", icon: "🤖" },
-  { id: "数据平台", name: "数据平台", icon: "🗄️" },
-  { id: "区块链", name: "区块链", icon: "⛓️" },
-  { id: "IoT平台", name: "IoT平台", icon: "📡" },
-  { id: "开发工具", name: "开发工具", icon: "🧩" },
-  { id: "安全平台", name: "安全平台", icon: "🔒" },
-];
-
 const filteredAssets = computed(() => {
-  return assets.filter((asset) => {
+  return techAssets.filter((asset) => {
     const matchesSearch =
       !searchQuery.value ||
       asset.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -149,7 +42,7 @@ const handleViewDetail = (assetId: string) => {
 
         <nav class="category-nav">
           <div
-            v-for="category in categories"
+            v-for="category in techCategories"
             :key="category.id"
             @click="selectCategory(category.id)"
             :class="['category-item', { active: selectedCategory === category.id }]"
