@@ -23,6 +23,10 @@ const handleStart = () => {
     }
   }, 0);
 };
+
+const goBack = () => {
+  window.history.back();
+};
 </script>
 
 <template>
@@ -30,10 +34,10 @@ const handleStart = () => {
     <div class="container">
       <!-- 返回按钮 -->
       <div class="back-section">
-        <RouterLink to="/ai-tools" class="back-link">
+        <a href="javascript:void(0)" class="back-link" @click="goBack">
           <span class="back-icon">←</span>
           返回应用列表
-        </RouterLink>
+        </a>
       </div>
 
       <!-- 应用不存在 -->
@@ -41,7 +45,7 @@ const handleStart = () => {
         <div class="not-found-icon">🔍</div>
         <h2 class="not-found-title">应用不存在</h2>
         <p class="not-found-desc">抱歉，您访问的应用不存在或已被删除</p>
-        <RouterLink to="/ai-tools" class="btn btn-primary"> 返回应用列表 </RouterLink>
+        <a href="javascript:void(0)" class="btn btn-primary" @click="goBack"> 返回应用列表 </a>
       </div>
 
       <!-- 应用详情 -->

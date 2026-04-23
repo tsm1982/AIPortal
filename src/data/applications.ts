@@ -8,6 +8,7 @@ export interface Application {
   features: string[];
   url?: string;
   featured?: boolean;
+  networkType?: "intranet" | "internet";
 }
 
 export const applications: Application[] = [
@@ -27,6 +28,7 @@ export const applications: Application[] = [
     ],
     url: "http://124.221.144.17:1187/diancan",
     featured: true,
+    networkType: "internet",
   },
   {
     id: "2",
@@ -53,6 +55,7 @@ export const applications: Application[] = [
     ],
     url: "http://123.59.26.85/login",
     featured: true,
+    networkType: "internet",
   },
   {
     id: "3",
@@ -77,6 +80,7 @@ export const applications: Application[] = [
     ],
     url: "http://124.221.144.17:1188/#/login",
     featured: true,
+    networkType: "internet",
   },
   {
     id: "4",
@@ -93,6 +97,7 @@ export const applications: Application[] = [
     ],
     url: "https://wxai.etransfar.com:9008/xqy?userId=028682",
     featured: true,
+    networkType: "internet",
   },
   {
     id: "5",
@@ -109,6 +114,7 @@ export const applications: Application[] = [
     ],
     url: "http://10.19.197.140/#/login",
     featured: true,
+    networkType: "intranet",
   },
   {
     id: "6",
@@ -126,6 +132,7 @@ export const applications: Application[] = [
     ],
     url: "http://10.19.32.11:8091/#/",
     featured: true,
+    networkType: "intranet",
   },
   {
     id: "7",
@@ -143,6 +150,7 @@ export const applications: Application[] = [
       "法律库：内置法律规则库",
     ],
     url: "http://106.14.199.195:8079/",
+    networkType: "internet",
   },
   {
     id: "8",
@@ -159,5 +167,6 @@ export const applications: Application[] = [
       "监控运维：完善的监控运维体系",
     ],
     url: "https://tacmaas-copilot.asiainfo.com.cn/",
+    networkType: "intranet",
   },
 ];

@@ -77,6 +77,9 @@ const handleStartApp = (appId: string) => {
       <main class="main-content">
         <div class="apps-grid">
           <div v-for="app in filteredApplications" :key="app.id" class="app-card">
+            <div v-if="app.networkType" class="network-badge" :class="app.networkType">
+              {{ app.networkType === 'intranet' ? '内网' : '外网' }}
+            </div>
             <div class="app-header">
               <div class="app-icon">{{ app.icon }}</div>
               <div class="app-info">
@@ -241,12 +244,33 @@ const handleStartApp = (appId: string) => {
   transition: all var(--animation-duration-base) var(--ease-out);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .app-card:hover {
   box-shadow: var(--shadow-2);
   border-color: var(--color-primary-bg-hover);
   transform: translateY(-2px);
+}
+
+.network-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 2px 8px;
+  border-radius: var(--border-radius-xs);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.network-badge.internet {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+.network-badge.intranet {
+  background: #fff7e6;
+  color: #fa8c16;
 }
 
 .app-header {

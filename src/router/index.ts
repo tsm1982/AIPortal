@@ -89,7 +89,7 @@ router.beforeEach((to, _from, next) => {
     next({ name: 'login', query: { redirect: to.fullPath } })
   } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
     next({ name: 'home' })
-  } else if (to.meta.roles && to.meta.roles.length > 0) {
+  } else if (to.meta.roles && Array.isArray(to.meta.roles) && to.meta.roles.length > 0) {
     const userRole = authStore.user?.role
     if (userRole && (to.meta.roles as Role[]).includes(userRole)) {
       next()

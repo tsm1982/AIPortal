@@ -26,9 +26,9 @@ const handleLogout = () => {
 };
 
 const companyInfo = {
-  name: "亚信科技",
-  logo: "/favicon.ico",
-  subtitle: "AI应用门户",
+  name: "AI应用门户",
+  logo: "/favicon.png",
+  subtitle: "智启新元，创领AI未来",
 };
 
 const userDisplayName = computed(() => {
@@ -245,11 +245,10 @@ const getRoleDisplayName = (role: string) => {
           <div class="footer-section">
             <h4 class="footer-title">联系方式</h4>
             <p class="footer-contact">电话：010-82166666</p>
-            <p class="footer-contact">tongsm@asiainfo.com</p>
           </div>
         </div>
         <div class="footer-bottom">
-          <p class="copyright">© 2026 亚信科技有限公司 版权所有</p>
+          <p class="copyright">© 2026 AI应用门户 版权所有</p>
         </div>
       </div>
     </footer>
