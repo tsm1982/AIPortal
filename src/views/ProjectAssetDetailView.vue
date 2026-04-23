@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute, RouterLink } from "vue-router";
-import AIChat from "@/components/AIChat.vue";
+import FloatingServiceRobot from "@/components/FloatingServiceRobot.vue";
 import { projectAssets, type AssetFile } from "@/data/projectAssets";
 
 const route = useRoute();
@@ -130,14 +130,13 @@ const downloadFile = (file: AssetFile) => {
             </div>
           </div>
         </div>
-
-        <AIChat
-          :title="`AI 问答 - ${currentAsset.name}`"
-          :context-info="currentAsset.name"
-          placeholder="输入您想了解的项目问题..."
-        />
       </div>
     </div>
+
+    <FloatingServiceRobot
+      :context-info="currentAsset.name"
+      :chat-title="`${currentAsset.name} 知识库问答`"
+    />
   </div>
 </template>
 

@@ -182,8 +182,8 @@ const formatTime = (date: Date): string => {
   border-radius: var(--border-radius-lg);
   display: flex;
   flex-direction: column;
-  height: 400px;
-  margin-top: 16px;
+  height: 100%;
+  margin-top: 0;
 }
 
 .chat-header {

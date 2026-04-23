@@ -2,6 +2,7 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { projectAssets, projectCategories } from "@/data/projectAssets";
+import FloatingServiceRobot from "@/components/FloatingServiceRobot.vue";
 
 const router = useRouter();
 
@@ -84,6 +85,11 @@ const handleViewDetail = (assetId: string) => {
         </div>
       </main>
     </div>
+
+    <FloatingServiceRobot
+      context-info="所有项目资产"
+      chat-title="项目资产知识库问答"
+    />
   </div>
 </template>
 
