@@ -14,19 +14,20 @@ withDefaults(defineProps<Props>(), {
 
 const isChatOpen = ref(false);
 
-const toggleChat = () => {
-  isChatOpen.value = !isChatOpen.value;
+const closeChat = () => {
+  isChatOpen.value = false;
 };
 </script>
 
 <template>
   <div class="floating-service">
     <div v-if="isChatOpen" class="chat-popup">
+      <button class="popup-close-btn" @click="closeChat">✕</button>
       <AIChat :title="chatTitle" :context-info="contextInfo" />
     </div>
-    <button class="service-btn" @click="toggleChat" :class="{ active: isChatOpen }">
-      <span class="service-icon">{{ isChatOpen ? "✕" : "💬" }}</span>
-      <span class="service-text">{{ isChatOpen ? "关闭" : "咨询客服" }}</span>
+    <button v-if="!isChatOpen" class="service-btn" @click="isChatOpen = true">
+      <span class="service-icon">💬</span>
+      <span class="service-text"></span>
     </button>
   </div>
 </template>
@@ -90,6 +91,28 @@ const toggleChat = () => {
 
 .service-btn.active:hover {
   background: #555;
+}
+
+.popup-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background var(--animation-duration-fast);
+}
+
+.popup-close-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .service-icon {

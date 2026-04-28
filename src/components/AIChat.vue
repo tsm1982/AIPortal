@@ -129,7 +129,6 @@ const formatTime = (date: Date): string => {
         <span class="chat-icon">💬</span>
         <span>{{ title }}</span>
       </div>
-      <button class="clear-btn" @click="clearChat" title="清空对话">🗑️</button>
     </div>
 
     <div ref="messagesContainer" class="chat-messages">

@@ -134,6 +134,7 @@ const downloadFile = (file: AssetFile) => {
     </div>
 
     <FloatingServiceRobot
+      v-if="currentAsset"
       :context-info="currentAsset.name"
       :chat-title="`${currentAsset.name} 知识库问答`"
     />
